@@ -4,9 +4,7 @@ import spark.Spark;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 
 public final class RestServer {
 
@@ -23,9 +21,9 @@ public final class RestServer {
   }
 
   public void handleShutdown() throws IOException {
-    final InputStream in = System.in;
-    try (final BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+    try (final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
       while (!reader.readLine().equals("stop")) {}
+      System.out.println("Stopping Server...");
       Spark.stop();
     }
   }
