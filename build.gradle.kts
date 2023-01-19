@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.sparkjava:spark-core:2.9.3")
+    implementation("com.sparkjava:spark-core:2.9.4")
 }
 
 java {
