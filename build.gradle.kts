@@ -1,6 +1,8 @@
 plugins{
     java
+    `java-library`
     id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.hierynomus.license-base") version "0.16.1"
 }
 
 group = "io.github.pulsebeat02"
@@ -44,5 +46,21 @@ sourceSets {
     main {
         java.srcDir("src/main/java")
         resources.srcDir("src/main/resources")
+    }
+}
+
+subprojects {
+
+    apply(plugin = "com.github.hierynomus.license-base")
+
+    license {
+        header = rootProject.file("LICENSE")
+        encoding = "UTF-8"
+        mapping("java", "SLASHSTAR_STYLE")
+        includes(listOf("**/*.java", "**/*.kts"))
+    }
+
+    task<Wrapper>("wrapper") {
+        gradleVersion = "7.6"
     }
 }
