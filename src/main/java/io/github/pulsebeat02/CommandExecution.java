@@ -26,6 +26,8 @@ package io.github.pulsebeat02;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class CommandExecution {
 
@@ -42,6 +44,17 @@ public final class CommandExecution {
   }
 
   public String getResult(final String input) throws IOException {
+
+    final Pattern pattern = Pattern.compile(
+        "((?:https?:)?\\/\\/)?((?:www|m)\\.)?((?:youtube(-nocookie)?\\.com|youtu.be))(\\/(?:[\\w\\-]+\\?v=|embed\\/|v\\/)?)([\\w\\-]+)(\\S+)?",
+        Pattern.MULTILINE,
+        Pattern.CASE_INSENSITIVE
+    );
+
+    final Matcher matcher = pattern.matcher(input);
+    if (!matcher.matches()) {
+      return "Invalid YouTube URL";
+    }
 
     final String cmd = YOUTUBE_DL_COMMAND.formatted(input);
     final Process process = runtime.exec(cmd);
