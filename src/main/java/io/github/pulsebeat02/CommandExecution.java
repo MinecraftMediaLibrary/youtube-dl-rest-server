@@ -35,7 +35,7 @@ public final class CommandExecution {
 
     static {
         YOUTUBE_DL_COMMAND = "youtube-dl --skip-download --dump-json %s";
-        CHECK_ATTACK = Pattern.compile("(;)|(&&)");
+        CHECK_ATTACK = Pattern.compile("(;)|(&{2}|\\|{2})|(\\|\\|)");
     }
 
     private final Runtime runtime;
@@ -47,7 +47,9 @@ public final class CommandExecution {
     public String getResult(final String input) throws IOException {
 
         if (!validateInput(input)) {
-            return "Invalid URL: %s".formatted(input);
+            final String err = "Invalid URL (Possible Attack?): %s".formatted(input);
+            System.out.println(err);
+            return err;
         }
 
         final String cmd = YOUTUBE_DL_COMMAND.formatted(input);
